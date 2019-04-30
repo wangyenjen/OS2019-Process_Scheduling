@@ -89,7 +89,7 @@ SIGCHLD_signal_handler() {
     number of finished processes += 1;
     pop one process from queue;
     run = FALSE;
-    counting time = 0;
+    counting_time = 0;
     if (number of finished processes == number of processes):
         exit();
 }
@@ -104,13 +104,14 @@ RR() {
 	    push the next ready process into queue;
 	    change_priority();
         run a unit of time;
-	if (run == TRUE and count_time == time_quantum):
+	counting_time++;
+	if (run == TRUE and counting_time == time_quantum):
 	    pop one process from queue;
 	    expected remaining time of process -= time_quantum;
 	    set the priority of the process to LOW;
 	    push the process back to queue;
 	    run = FALSE;
-	    change_priority;
+	    change_priority();
 }
 
 ```
@@ -152,7 +153,7 @@ SJF() {
     while unfinished tasks exist:
         change_priority();	
         for all (processes that are ready at this moment t):
-	    decrease the priority of the next process priority;
+	    decrease the priority of the next process;
 	    create process (fork and execute);
 	    insert the next ready process into heap;
 	    change_priority();
@@ -204,8 +205,7 @@ PSJF() {
 	    insert the next ready process into heap;
 	    change_priority();
     run a unit of time;
-    counting_time++;
-    check if any child processes died when SIGCHLD was blocked;
+    check if any child process died when SIGCHLD was blocked;
 }
 ```
 ## Test & Analysis
